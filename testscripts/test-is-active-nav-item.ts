@@ -3,7 +3,7 @@
  * settings-shell. Covers the bug class that shipped to OnboardDeck (sidebar lit
  * up both Home and Kits at /home/kits) and adjacent edge cases:
  *   - parent / child collision (`/home` vs `/home/kits`)
- *   - prefix-without-boundary (`/billing` should not match `/billings-archive`)
+ *   - prefix-without-boundary (`/home` should not match `/home-archive`)
  *   - sibling collision with shared prefix (`/settings/api` vs `/settings/api-keys`)
  *   - longest-match wins
  *
@@ -24,36 +24,29 @@ function assert(cond: boolean, msg: string): void {
 }
 
 function main(): void {
-  // ── isActiveNavItem ────────────────────────────────────────────────────
   assert(isActiveNavItem("/home", "/home"), "exact match on /home");
   assert(isActiveNavItem("/home/kits", "/home/kits"), "exact match on /home/kits");
   assert(isActiveNavItem("/home/kits/abc", "/home/kits"), "child of /home/kits");
   assert(isActiveNavItem("/home/kits", "/home"), "child path matches parent (boundary)");
 
-  // boundary: /billing must NOT match /billings-archive
   assert(
-    !isActiveNavItem("/billings-archive", "/billing"),
-    "boundary: /billings-archive must not match /billing"
+    !isActiveNavItem("/home-archive", "/home"),
+    "boundary: /home-archive must not match /home"
   );
-  // boundary: /settings/api must NOT match /settings/api-keys (sibling prefix)
   assert(
     !isActiveNavItem("/settings/api", "/settings/api-keys"),
     "boundary: /settings/api must not match /settings/api-keys"
   );
-  // boundary: /settings/api-keys-archive must NOT match /settings/api-keys
   assert(
     !isActiveNavItem("/settings/api-keys-archive", "/settings/api-keys"),
     "boundary: /settings/api-keys-archive must not match /settings/api-keys"
   );
 
-  // empty inputs → never active
   assert(!isActiveNavItem("", "/home"), "empty pathname → not active");
   assert(!isActiveNavItem("/home", ""), "empty href → not active");
 
-  // ── pickActiveNavHref (the OnboardDeck bug) ────────────────────────────
-  const sidebar = ["/home", "/home/kits", "/home/templates", "/billing", "/settings"];
+  const sidebar = ["/home", "/home/kits", "/home/templates", "/settings"];
 
-  // The exact bug from the screenshot: at /home/kits, only Kits should win.
   assert(
     pickActiveNavHref("/home/kits", sidebar) === "/home/kits",
     "longest-wins: /home/kits beats /home at /home/kits"
@@ -72,22 +65,17 @@ function main(): void {
   );
   assert(
     pickActiveNavHref("/settings/api-keys", sidebar) === "/settings",
-    "longest-wins: /settings is longest match for /settings/api-keys (no /settings/api-keys peer in sidebar)"
+    "longest-wins: /settings is longest match for /settings/api-keys"
   );
   assert(
-    pickActiveNavHref("/billing", sidebar) === "/billing",
-    "exact match: /billing"
-  );
-  assert(
-    pickActiveNavHref("/billings-archive", sidebar) === null,
-    "no match: /billings-archive does not match /billing (boundary)"
+    pickActiveNavHref("/home-archive", sidebar) === null,
+    "no match: /home-archive does not match /home (boundary)"
   );
   assert(
     pickActiveNavHref("/dashboard", sidebar) === null,
     "no match: route the nav doesn't list returns null"
   );
 
-  // settings tabs scenario — Profile vs API Keys
   const settingsTabs = ["/settings", "/settings/api-keys"];
   assert(
     pickActiveNavHref("/settings", settingsTabs) === "/settings",

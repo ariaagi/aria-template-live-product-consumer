@@ -11,7 +11,7 @@ import { getSessionCookie } from "better-auth/cookies";
  *      doesn't hit the database. The `(app)/layout.tsx` still does a full session check on the
  *      server — this is defense-in-depth that catches the unauthenticated case earlier.
  *   2. **Security headers**: send a baseline CSP / HSTS / referrer-policy on every response.
- *   3. **In-memory rate limiting**: 60 req/min per IP for `/api/**` (excluding webhooks). For
+ *   3. **In-memory rate limiting**: 60 req/min per IP for `/api/**` (excluding auth). For
  *      production scale, swap to Upstash Redis — interface stays the same.
  *
  * `E2E_BYPASS_AUTH=true` skips the auth redirect (matches `(app)/layout.tsx` behavior).
@@ -21,10 +21,10 @@ import { getSessionCookie } from "better-auth/cookies";
 const RATE_LIMIT_WINDOW_MS = 60_000;
 const RATE_LIMIT_MAX = 60;
 const RATE_LIMIT_PATHS = /^\/api\//;
-const RATE_LIMIT_EXEMPT = /^\/api\/(auth|webhooks)\//;
-const APP_PATHS = /^\/(home|billing|settings)(\/|$)/;
+const RATE_LIMIT_EXEMPT = /^\/api\/auth\//;
+const APP_PATHS = /^\/(home|settings)(\/|$)/;
 const SHARE_PATHS = /^\/share(\/|$)/;
-const PUBLIC_API = /^\/api\/(auth|webhooks)(\/|$)/;
+const PUBLIC_API = /^\/api\/auth(\/|$)/;
 
 type RateBucket = { hits: number; resetAt: number };
 const ipBuckets = new Map<string, RateBucket>();
@@ -107,8 +107,8 @@ export function middleware(request: NextRequest): NextResponse {
 export const config = {
   matcher: [
     "/home/:path*",
-    "/billing/:path*",
     "/settings/:path*",
+    "/share/:path*",
     "/api/:path*",
   ],
 };

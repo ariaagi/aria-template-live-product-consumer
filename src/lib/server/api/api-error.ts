@@ -1,5 +1,5 @@
 /**
- * Typed error class thrown by `requireSession`, `requireActiveSubscription`, `parseJsonBody`,
+ * Typed error class thrown by `requireSession`, `parseJsonBody`,
  * etc. The `withApiErrorHandling` wrapper translates these into the standard `errJson` envelope.
  *
  * Throw, don't return — handler code stays readable when each precondition can short-circuit

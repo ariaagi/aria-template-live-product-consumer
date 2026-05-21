@@ -1,18 +1,17 @@
 {
-    "appName": "Template App",
-    "appTagline": "Centralized baseline ready for idea-specific features.",
-    "ideaId": "template-idea",
-    "monetizationMode": "subscription",
-    "pricing": {
-      "planName": "Starter",
-      "amount": 19,
-      "currency": "USD",
-      "interval": "month"
-    },
-    "integrations": ["neon", "stripe", "github", "vercel"],
-    "branding": {
-      "primaryColor": "#111111",
-      "accentColor": "#525252"
-    }
+  "appName": "Template App",
+  "appTagline": "Free consumer web baseline — extend under Home.",
+  "ideaId": "template-idea",
+  "monetizationMode": "has_free_tier",
+  "pricing": {
+    "planName": "Free",
+    "amount": 0,
+    "currency": "USD",
+    "interval": "month"
+  },
+  "integrations": ["neon", "github", "vercel"],
+  "branding": {
+    "primaryColor": "#111111",
+    "accentColor": "#525252"
   }
-  
+}

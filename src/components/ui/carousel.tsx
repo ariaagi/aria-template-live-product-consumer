@@ -95,7 +95,7 @@ function Carousel({
 
   React.useEffect(() => {
     if (!api) return
-    // Embla requires an initial sync before subscription events fire.
+    // Embla requires an initial sync before its change listeners run.
     // eslint-disable-next-line react-hooks/set-state-in-effect
     onSelect(api)
     api.on("reInit", onSelect)

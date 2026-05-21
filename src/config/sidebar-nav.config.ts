@@ -3,9 +3,9 @@
  *
  * Generated MVPs SHOULD write their primary section nav items here (e.g. "Workouts",
  * "Tournaments", "Recipes"). The template's `AppShell` merges them between the built-in
- * "Home" and "Billing" entries so the user-facing IA always reads:
+ * "Home" and "Settings" entries so the user-facing IA always reads:
  *
- *   Home → [your sections...] → Billing → Settings
+ *   Home → [your sections...] → Settings
  *
  * Conventions:
  *   - `href` MUST start with `/` and match an actual route in `src/app/(app)/`.

@@ -6,7 +6,7 @@
  *   2. Sub-nav tabs    → secondary nav rail under the header for child list pages.
  *
  * Why this file exists: the in-template `app-shell.tsx` ships a fixed 3-item sidebar
- * (`/home`, `/billing`, `/settings`) and is mandatory-no-modify. Without this extension point,
+ * (`/home`, `/settings`) and is mandatory-no-modify. Without this extension point,
  * Claude has no stable way to surface child routes (e.g. `/home/checklists/new`) — so once a
  * user creates an entity, the create CTA disappears from `/home` and the only re-entry is
  * typing the URL. This file fixes that by giving Claude an additive hook into nav.

@@ -4,7 +4,6 @@ import { auth } from "@/lib/auth";
 import { getDbPool } from "@/lib/db";
 import { errJson, okJson } from "@/lib/server/api/json-response";
 import { parseJsonBody } from "@/lib/server/api/parse-body";
-import { canUserRunProtectedAction } from "@/lib/server/billing/gating";
 
 export const runtime = "nodejs";
 
@@ -38,10 +37,6 @@ export async function PATCH(request: Request) {
   if (!session?.user?.id) {
     return errJson("unauthorized", 401);
   }
-  if (!(await canUserRunProtectedAction(session.user.id))) {
-    return errJson("subscription_required_for_action", 402);
-  }
-
   const body = await parseJsonBody(request, profileSchema);
 
   const pool = getDbPool();

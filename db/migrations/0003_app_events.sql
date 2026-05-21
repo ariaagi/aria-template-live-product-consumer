@@ -1,6 +1,6 @@
 -- Lightweight in-app event log for analytics + Phase 5 build outcome telemetry.
 -- Generated MVPs SHOULD insert into this table for "thing created" / "thing exported" /
--- "subscription started" events. Cheap, append-only, no foreign keys to user data so
+-- "item created" / "export completed" events. Cheap, append-only, no foreign keys to user data so
 -- old rows can stay even after user deletion (audit trail).
 
 CREATE TABLE IF NOT EXISTS "app_events" (

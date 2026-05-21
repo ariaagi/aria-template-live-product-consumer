@@ -11,7 +11,6 @@ import {
   Bookmark,
   Briefcase,
   Calendar,
-  CreditCard,
   Dumbbell,
   FileText,
   Folder,
@@ -88,7 +87,6 @@ const ICON_MAP: Record<SidebarIconName, IconCmp> = {
 type ResolvedNavItem = { href: string; label: string; icon: IconCmp };
 
 const HOME_ITEM: ResolvedNavItem = { href: "/home", label: "Home", icon: LayoutGrid };
-const BILLING_ITEM: ResolvedNavItem = { href: "/billing", label: "Billing", icon: CreditCard };
 const SETTINGS_ITEM: ResolvedNavItem = { href: "/settings", label: "Settings", icon: Settings };
 
 /** True iff `href` contains no Next.js dynamic-segment placeholders. */
@@ -97,10 +95,9 @@ function isStaticHref(href: string): boolean {
 }
 
 /**
- * Merges template baseline (Home / Billing / Settings) with extras from
- * sidebar-nav.config.ts. Extras render between Home and Billing so the IA reads
- * Home → user features → Billing → Settings. Duplicate hrefs are dropped silently
- * (template owns Home/Billing/Settings hrefs).
+ * Merges template baseline (Home / Settings) with extras from sidebar-nav.config.ts.
+ * Extras render between Home and Settings: Home → user features → Settings.
+ * Duplicate hrefs are dropped silently (template owns Home/Settings hrefs).
  *
  * **Defense in depth**: hrefs containing `[bracket]` segments (e.g. `/home/boards/[id]`)
  * are silently dropped. The sidebar renders on every page and has no dynamic id in
@@ -109,7 +106,7 @@ function isStaticHref(href: string): boolean {
  * for already-shipped MVPs and future regressions.
  */
 function buildNavItems(): ResolvedNavItem[] {
-  const baseHrefs = new Set([HOME_ITEM.href, BILLING_ITEM.href, SETTINGS_ITEM.href]);
+  const baseHrefs = new Set([HOME_ITEM.href, SETTINGS_ITEM.href]);
   const seen = new Set<string>(baseHrefs);
   const extras: ResolvedNavItem[] = [];
   for (const item of extraSidebarNavItems) {
@@ -129,7 +126,7 @@ function buildNavItems(): ResolvedNavItem[] {
     const icon = item.iconName ? (ICON_MAP[item.iconName] ?? Folder) : Folder;
     extras.push({ href, label: item.label, icon });
   }
-  return [HOME_ITEM, ...extras, BILLING_ITEM, SETTINGS_ITEM];
+  return [HOME_ITEM, ...extras, SETTINGS_ITEM];
 }
 
 const NAV_ITEMS = buildNavItems();
