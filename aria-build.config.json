@@ -1,0 +1,18 @@
+{
+    "appName": "Template App",
+    "appTagline": "Centralized baseline ready for idea-specific features.",
+    "ideaId": "template-idea",
+    "monetizationMode": "subscription",
+    "pricing": {
+      "planName": "Starter",
+      "amount": 19,
+      "currency": "USD",
+      "interval": "month"
+    },
+    "integrations": ["neon", "stripe", "github", "vercel"],
+    "branding": {
+      "primaryColor": "#111111",
+      "accentColor": "#525252"
+    }
+  }
+  

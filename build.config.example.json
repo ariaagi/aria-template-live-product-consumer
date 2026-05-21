@@ -1,0 +1,16 @@
+{
+  "appName": "HireSignal",
+  "appTagline": "Track hiring signals and surface account intent.",
+  "ideaId": "idea_12345",
+  "monetizationMode": "subscription",
+  "pricing": {
+    "amount": 29,
+    "currency": "USD",
+    "interval": "month"
+  },
+  "integrations": ["neon", "stripe", "github", "vercel"],
+  "branding": {
+    "primaryColor": "#111111",
+    "accentColor": "#525252"
+  }
+}

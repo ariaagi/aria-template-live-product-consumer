@@ -1,0 +1,3 @@
+# Use LF in the repository and working tree (matches GitHub/CI; avoids spurious
+# "modified" status on Windows when editors save CRLF).
+* text=auto eol=lf
