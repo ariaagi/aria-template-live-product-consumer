@@ -2,8 +2,8 @@ const env = {
   appUrl: process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000",
   ariaApiBaseUrl: process.env.NEXT_PUBLIC_ARIA_API_BASE_URL ?? "http://localhost:4000",
   databaseUrl: process.env.DATABASE_URL ?? process.env.NEON_DATABASE_URL,
-  googleOAuthClientId: process.env.GOOGLE_OAUTH_CLIENT_ID,
-  googleOAuthClientSecret: process.env.GOOGLE_OAUTH_CLIENT_SECRET,
+  ariaMvpAppId: process.env.ARIA_MVP_APP_ID,
+  ariaGoogleHandoffSecret: process.env.ARIA_GOOGLE_HANDOFF_SECRET,
 };
 
 export function getEnv() {

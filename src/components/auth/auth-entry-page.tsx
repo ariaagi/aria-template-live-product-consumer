@@ -4,6 +4,10 @@ import { redirect } from "next/navigation";
 import { AuthViewCard } from "@/components/auth/auth-view-card";
 import { getBuildConfig } from "@/config/build-config";
 import { auth } from "@/lib/auth";
+import {
+  buildAriaGoogleStartHref,
+  isAriaGoogleBrokerConfigured,
+} from "@/lib/server/auth/aria-google-broker";
 
 type AuthEntryPageProps = {
   pathname: "sign-in" | "sign-up";
@@ -23,10 +27,9 @@ export async function AuthEntryPage({
     redirect("/home");
   }
 
-  const hasGoogleOAuth = Boolean(
-    process.env.GOOGLE_OAUTH_CLIENT_ID?.trim() &&
-      process.env.GOOGLE_OAUTH_CLIENT_SECRET?.trim()
-  );
+  const googleStartHref = isAriaGoogleBrokerConfigured()
+    ? buildAriaGoogleStartHref()
+    : null;
   const buildConfig = getBuildConfig();
   const logoSrc = buildConfig.branding.logoUrl?.trim() || undefined;
 
@@ -34,7 +37,7 @@ export async function AuthEntryPage({
     <main className="flex min-h-svh items-start justify-center bg-muted/40 px-4 py-6 sm:items-center sm:p-6">
       <AuthViewCard
         pathname={pathname}
-        hasGoogleOAuth={hasGoogleOAuth}
+        googleStartHref={googleStartHref}
         appName={buildConfig.appName}
         logoSrc={logoSrc}
       />
