@@ -2,6 +2,8 @@ import { betterAuth } from "better-auth";
 import { nextCookies } from "better-auth/next-js";
 import { Pool } from "pg";
 
+import { ariaGoogleHandoffPlugin } from "@/lib/server/auth/aria-google-handoff-plugin";
+
 let pool: Pool | null = null;
 
 function getDatabasePool(): Pool {
@@ -27,7 +29,7 @@ function getDatabasePool(): Pool {
  */
 export const auth = betterAuth({
   database: getDatabasePool(),
-  plugins: [nextCookies()],
+  plugins: [nextCookies(), ariaGoogleHandoffPlugin()],
   secret:
     process.env.BETTER_AUTH_SECRET?.trim() ??
     "dev-only-secret-min-32-chars-please-change",
@@ -37,6 +39,12 @@ export const auth = betterAuth({
     "http://localhost:3000",
   emailAndPassword: {
     enabled: true,
+  },
+  account: {
+    accountLinking: {
+      enabled: true,
+      trustedProviders: ["google"],
+    },
   },
   trustedOrigins: [
     "http://localhost:3000",
